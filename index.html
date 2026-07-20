@@ -33,40 +33,24 @@
                 <p class="text-xs text-gray-400">Serial: 41K9061</p>
             </div>
             
-            <nav class="flex-1 mt-6 px-2 space-y-2">
-                <button onclick="router('dashboard')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
-                    <i class="fa-solid fa-chart-line w-6 text-gray-400 group-hover:text-yellow-500"></i>
-                    <span class="ml-3">Dashboard</span>
-                </button>
-                <button onclick="router('catalogo')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
-                    <i class="fa-solid fa-gears w-6 text-gray-400 group-hover:text-yellow-500"></i>
-                    <span class="ml-3">Catálogo de Partes</span>
-                </button>
-                <button onclick="router('mantenimiento')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
-                    <i class="fa-solid fa-calendar-check w-6 text-gray-400 group-hover:text-yellow-500"></i>
-                    <span class="ml-3">Mantenimiento PM</span>
-                </button>
-                <button onclick="router('inventario')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
-                    <i class="fa-solid fa-warehouse w-6 text-gray-400 group-hover:text-yellow-500"></i>
-                    <span class="ml-3">Stock / QR</span>
-                </button>
-                <button onclick="router('lubricacion')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
-                    <i class="fa-solid fa-droplet w-6 text-gray-400 group-hover:text-yellow-500"></i>
-                    <span class="ml-3">Lubricación</span>
-                </button>
-				<button onclick="router('visual')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
-					<i class="fa-solid fa-eye w-6 text-gray-400 group-hover:text-yellow-500"></i>
-					<span class="ml-3">Explorador Visual</span>
-				</button>
-				<button onclick="router('qr-generator')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
-					<i class="fa-solid fa-qrcode w-6 text-gray-400 group-hover:text-yellow-500"></i>
-					<span class="ml-3">Generador de QR</span>
-				</button>
-				<button onclick="router('hoja-vida')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
-					<i class="fa-solid fa-file-medical w-6 text-gray-400 group-hover:text-yellow-500"></i>
-					<span class="ml-3">Hoja de Vida</span>
-				</button>
-            </nav>
+           <nav class="flex-1 mt-6 px-2 space-y-2">
+    <button onclick="router('dashboard')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group active">
+        <i class="fa-solid fa-right-left w-6 text-gray-400 group-hover:text-yellow-500"></i>
+        <span class="ml-3">Panel de Operaciones</span>
+    </button>
+    <button onclick="router('explorador')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+        <i class="fa-solid fa-boxes-stacked w-6 text-gray-400 group-hover:text-yellow-500"></i>
+        <span class="ml-3">Almacén y QR</span>
+    </button>
+    <button onclick="router('visual')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+        <i class="fa-solid fa-diagram-project w-6 text-gray-400 group-hover:text-yellow-500"></i>
+        <span class="ml-3">Blueprint Interactivo</span>
+    </button>
+    <button onclick="router('bitacora')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+        <i class="fa-solid fa-clipboard-list w-6 text-gray-400 group-hover:text-yellow-500"></i>
+        <span class="ml-3">Historial de Máquina</span>
+    </button>
+</nav>
             
             <div class="p-4 border-t border-gray-800 text-center">
                 <span class="text-[10px] text-gray-500 uppercase tracking-widest text-center">Industria 4.0 Pro</span>
