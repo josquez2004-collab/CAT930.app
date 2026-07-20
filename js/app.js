@@ -1,17 +1,15 @@
 /**
- * CAT 930 Manager Pro - Versión 4.0 Industrial
+ * CAT 930 Manager Pro v5.0 - Industria 4.0
  */
 
 let appState = {
     parts: [],
     currentView: 'dashboard',
     horometro: 8450,
-    history: JSON.parse(localStorage.getItem('cat930_history')) || [
-        { fecha: '2024-01-10', horometro: 8000, tipo: 'PM 250', nota: 'Servicio inicial de filtros y aceite.' }
-    ]
+    // Cargar stock modificado de memoria o usar el del CSV por defecto
+    modifiedStock: JSON.parse(localStorage.getItem('cat930_stock')) || {},
+    history: JSON.parse(localStorage.getItem('cat930_history')) || []
 };
-
-const PM_INTERVALS = { 'PM 250': 250, 'PM 500': 500, 'PM 1000': 1000, 'PM 2000': 2000 };
 
 window.onload = async () => {
     await loadDatabase();
@@ -20,184 +18,229 @@ window.onload = async () => {
 
 async function loadDatabase() {
     return new Promise((resolve) => {
-        if (typeof RAW_DATA !== 'undefined') {
-            Papa.parse(RAW_DATA, {
-                header: true, skipEmptyLines: true,
-                complete: function(results) {
-                    appState.parts = results.data;
-                    console.log("Base de datos cargada: " + appState.parts.length);
-                    resolve();
-                }
-            });
-        } else {
-            console.error("RAW_DATA no definido. Revisa database.js");
-            resolve();
-        }
+        Papa.parse(RAW_DATA, {
+            header: true, skipEmptyLines: true,
+            complete: function(results) {
+                // Sincronizar stock de CSV con el modificado en memoria
+                appState.parts = results.data.map(p => {
+                    if(appState.modifiedStock[p['SKU/QR']] !== undefined) {
+                        p.Cantidad = appState.modifiedStock[p['SKU/QR']];
+                    }
+                    return p;
+                });
+                resolve();
+            }
+        });
     });
 }
 
 function router(view) {
     appState.currentView = view;
     const content = document.getElementById('app-content');
-    const title = document.getElementById('page-title');
-    
-    // Limpiar clases de animación para reiniciar
-    content.classList.remove('animate__fadeIn');
-    void content.offsetWidth; // Truco para reiniciar animación
-    
-    title.innerText = view.replace('-', ' ').toUpperCase();
+    document.getElementById('page-title').innerText = view.toUpperCase();
+    content.innerHTML = '';
 
-    // Mapeo de rutas para evitar errores si haces clic en botones viejos
     switch(view) {
         case 'dashboard': renderDashboard(); break;
-        case 'catalogo': renderCatalogo(); break;
-        case 'inventario': renderCatalogo(); break; // Redirigir a catálogo
+        case 'explorador': renderExplorador(); break;
         case 'visual': renderVisual(); break;
-        case 'qr-generator': renderQRGenerator(); break;
-        case 'hoja-vida': renderHojaVida(); break;
-        case 'mantenimiento': renderHojaVida(); break; // Redirigir a Hoja de Vida
-        case 'lubricacion': renderLubricacion(); break;
-        default: renderDashboard();
+        case 'bitacora': renderBitacora(); break;
     }
-    
-    content.classList.add('animate__fadeIn');
 }
 
-// --- VISTA: DASHBOARD ---
+// --- DASHBOARD: ENTRADA Y SALIDA ---
 function renderDashboard() {
-    const alerts = [];
-    Object.keys(PM_INTERVALS).forEach(tipo => {
-        const last = [...appState.history].reverse().find(h => h.tipo === tipo);
-        if (last) {
-            const rest = PM_INTERVALS[tipo] - (appState.horometro - last.horometro);
-            if (rest <= 50) alerts.push({ tipo, rest });
-        }
-    });
-
     document.getElementById('app-content').innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="stat-card bg-white p-6 rounded-xl border-l-4 border-yellow-500 shadow-sm">
-                <p class="text-xs text-gray-500 font-bold uppercase">Horómetro Actual</p>
-                <input type="number" value="${appState.horometro}" onchange="appState.horometro=parseInt(this.value);renderDashboard();" class="text-3xl font-bold bg-transparent w-full outline-none">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 animate__animated animate__fadeIn">
+            <!-- BUSCADOR / ESCANER -->
+            <div class="bg-white p-8 rounded-3xl shadow-xl border-t-4 border-yellow-500">
+                <h3 class="font-black text-xl mb-6 flex items-center">
+                    <i class="fa-solid fa-barcode mr-3 text-yellow-500"></i> OPERACIÓN DE ALMACÉN
+                </h3>
+                <div class="space-y-6">
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Buscar por SKU o Referencia</label>
+                        <input type="text" id="op-search" list="parts-list" placeholder="Ej: 1R-0716..." 
+                            class="w-full p-4 bg-gray-50 rounded-2xl border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-yellow-500 transition">
+                        <datalist id="parts-list">
+                            ${appState.parts.map(p => `<option value="${p['SKU/QR']}">${p['Número de Parte']} - ${p['Nombre de la Pieza']}</option>`).join('')}
+                        </datalist>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="processTransaction('out')" class="bg-red-500 text-white p-5 rounded-2xl font-black hover:bg-black transition shadow-lg">
+                            <i class="fa-solid fa-minus-circle mr-2"></i> SALIDA
+                        </button>
+                        <button onclick="processTransaction('in')" class="bg-green-500 text-white p-5 rounded-2xl font-black hover:bg-black transition shadow-lg">
+                            <i class="fa-solid fa-plus-circle mr-2"></i> ENTRADA
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-gray-400 text-center italic">Para usar el escáner QR, enfoca el SKU con un lector externo y pégalo en el buscador.</p>
+                </div>
             </div>
-            <div class="md:col-span-2">
-                ${alerts.map(a => `<div class="p-4 bg-red-100 border-l-4 border-red-500 text-red-700 font-bold rounded mb-2 animate__animated animate__headShake">⚠️ Alerta ${a.tipo}: Toca en ${a.rest}h</div>`).join('') || '<div class="p-4 bg-green-100 border-l-4 border-green-500 text-green-700 font-bold rounded">✅ Todos los sistemas están al día</div>'}
+
+            <!-- RESUMEN DE ALERTAS -->
+            <div class="space-y-6">
+                <div class="bg-black text-white p-8 rounded-3xl shadow-xl">
+                    <p class="text-yellow-500 font-bold text-xs uppercase tracking-widest mb-2">Estado de Máquina</p>
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-4xl font-black">${appState.horometro} H</h2>
+                        <i class="fa-solid fa-gauge-high text-3xl opacity-20"></i>
+                    </div>
+                </div>
+                <div id="recent-actions" class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 min-h-[200px]">
+                    <h4 class="text-xs font-black mb-4 uppercase">Últimos Movimientos</h4>
+                    <div id="log-container" class="text-xs space-y-2"></div>
+                </div>
             </div>
-        </div>
-        <div class="bg-black text-white p-12 rounded-3xl text-center shadow-2xl">
-            <i class="fa-solid fa-tractor text-6xl text-yellow-500 mb-6"></i>
-            <h2 class="text-3xl font-bold mb-2">CAT 930 | SERIAL 41K9061</h2>
-            <p class="text-gray-400 max-w-md mx-auto">Gestión de flota y mantenimiento proactivo de nivel industrial.</p>
         </div>
     `;
 }
 
-// --- VISTA: CATÁLOGO ---
-function renderCatalogo() {
+function processTransaction(type) {
+    const sku = document.getElementById('op-search').value;
+    const part = appState.parts.find(p => p['SKU/QR'] === sku);
+    
+    if(!part) return alert("Repuesto no encontrado");
+
+    let qty = parseInt(prompt(`Cantidad para ${type === 'in' ? 'ENTRADA' : 'SALIDA'} de ${part['Nombre de la Pieza']}:`, "1"));
+    if(isNaN(qty) || qty <= 0) return;
+
+    if(type === 'out' && part.Cantidad < qty) return alert("Stock insuficiente");
+
+    // Actualizar Stock
+    const newQty = type === 'in' ? parseInt(part.Cantidad) + qty : parseInt(part.Cantidad) - qty;
+    part.Cantidad = newQty;
+    appState.modifiedStock[sku] = newQty;
+    localStorage.setItem('cat930_stock', JSON.stringify(appState.modifiedStock));
+
+    // Log visual
+    const log = document.getElementById('log-container');
+    const msg = `<div class="p-2 ${type === 'in' ? 'bg-green-50' : 'bg-red-50'} rounded border-l-4 ${type === 'in' ? 'border-green-500' : 'border-red-500'}">
+        <b>${new Date().toLocaleTimeString()}</b> - ${type.toUpperCase()}: ${qty} und. de ${part['Número de Parte']} (Queda: ${newQty})
+    </div>`;
+    log.innerHTML = msg + log.innerHTML;
+    
+    document.getElementById('op-search').value = '';
+}
+
+// --- EXPLORADOR DE REPUESTOS: CATALOGO + QR + IMAGEN ---
+function renderExplorador() {
     document.getElementById('app-content').innerHTML = `
-        <div class="mb-6"><input type="text" id="searchInput" onkeyup="filterParts()" placeholder="Buscar por nombre o número de parte..." class="w-full p-4 rounded-xl shadow-md border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-yellow-500 outline-none"></div>
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <table class="w-full text-left">
-                <thead class="bg-black text-yellow-500 text-xs uppercase tracking-wider">
-                    <tr><th class="p-4">Pieza / Sistema</th><th class="p-4">N° Parte</th><th class="p-4">Stock</th><th class="p-4 text-center">Etiqueta</th></tr>
-                </thead>
-                <tbody id="tableBody">${generateRows(appState.parts)}</tbody>
-            </table>
+        <div class="mb-6 flex gap-4">
+            <input type="text" id="searchParts" onkeyup="filterParts()" placeholder="Filtrar por sistema, nombre o referencia..." 
+                class="flex-1 p-4 rounded-2xl shadow-sm border-none ring-1 ring-gray-200 outline-none">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate__animated animate__fadeIn" id="explorer-grid">
+            ${generatePartCards(appState.parts)}
         </div>
     `;
 }
 
-function generateRows(data) {
-    if(!data.length) return '<tr><td colspan="4" class="p-8 text-center text-gray-400">No se encontraron repuestos.</td></tr>';
+function generatePartCards(data) {
     return data.map(p => `
-        <tr class="border-b hover:bg-gray-50 transition">
-            <td class="p-4 font-bold text-gray-800">${p['Nombre de la Pieza']}<br><span class="text-[10px] text-gray-400 uppercase font-normal">${p.Sistema}</span></td>
-            <td class="p-4 font-mono text-blue-600">${p['Número de Parte']}</td>
-            <td class="p-4 text-center font-bold">${p.Cantidad}</td>
-            <td class="p-4 text-center"><button onclick="generateSingleQR('${p['SKU/QR']}')" class="text-gray-400 hover:text-yellow-500 transition"><i class="fa-solid fa-qrcode text-xl"></i></button></td>
-        </tr>
+        <div class="bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-300">
+            <div class="h-48 bg-gray-200 relative overflow-hidden">
+                <!-- Imagen desde Telegram Placeholder -->
+                <img src="https://via.placeholder.com/400x300?text=${p['Número de Parte']}" class="w-full h-full object-cover group-hover:scale-110 transition">
+                <div class="absolute top-4 right-4 bg-black text-yellow-500 px-3 py-1 rounded-full text-[10px] font-black uppercase">
+                    ${p.Sistema}
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h4 class="font-black text-gray-800 leading-tight">${p['Nombre de la Pieza']}</h4>
+                        <p class="text-blue-600 font-mono text-sm">${p['Número de Parte']}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-2xl font-black ${p.Cantidad <= 1 ? 'text-red-500' : 'text-gray-800'}">${p.Cantidad}</span>
+                        <span class="text-[8px] uppercase font-bold text-gray-400">En Stock</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t flex justify-between items-center">
+                    <button onclick="showQuickQR('${p['SKU/QR']}')" class="text-gray-400 hover:text-black transition">
+                        <i class="fa-solid fa-qrcode text-xl"></i>
+                    </button>
+                    <span class="text-[10px] text-gray-400 italic">${p['Frecuencia de Cambio']}</span>
+                </div>
+                <div id="qr-${p['SKU/QR']}" class="hidden mt-4 p-4 bg-gray-50 rounded-xl flex justify-center"></div>
+            </div>
+        </div>
     `).join('');
 }
 
-function filterParts() {
-    const q = document.getElementById('searchInput').value.toLowerCase();
-    const filtered = appState.parts.filter(p => p['Nombre de la Pieza'].toLowerCase().includes(q) || p['Número de Parte'].toLowerCase().includes(q));
-    document.getElementById('tableBody').innerHTML = generateRows(filtered);
+function showQuickQR(sku) {
+    const div = document.getElementById(`qr-${sku}`);
+    if(!div.innerHTML) {
+        new QRCode(div, { text: sku, width: 120, height: 120 });
+    }
+    div.classList.toggle('hidden');
 }
 
-// --- VISTA: EXPLORADOR VISUAL ---
+// --- BLUEPRINT INTERACTIVO (CORREGIDO) ---
 function renderVisual() {
     document.getElementById('app-content').innerHTML = `
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 relative bg-gray-900 rounded-3xl p-10 flex items-center justify-center min-h-[450px] shadow-2xl border-4 border-gray-800">
-                <svg viewBox="0 0 800 400" class="w-full opacity-20"><path d="M150 300 L550 300 L580 200 L400 180 L350 100 L180 100 Z" fill="none" stroke="white" stroke-width="3" /></svg>
-                <div class="hotspot" style="top: 35%; left: 30%;" onclick="quickLook('Motor')"></div>
-                <div class="hotspot" style="top: 55%; left: 45%;" onclick="quickLook('Transmisión')"></div>
-                <div class="hotspot" style="top: 45%; left: 60%;" onclick="quickLook('Hidráulico')"></div>
-                <div class="hotspot" style="top: 75%; left: 28%;" onclick="quickLook('Ejes')"></div>
-                <div class="absolute bottom-4 left-6 text-white text-[10px] opacity-30 uppercase tracking-widest">Esquema Técnico 41K9061</div>
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 animate__animated animate__fadeIn">
+            <div class="lg:col-span-3 bg-gray-900 rounded-[3rem] p-10 flex items-center justify-center relative min-h-[500px]">
+                <svg viewBox="0 0 800 400" class="w-full h-auto drop-shadow-[0_0_15px_rgba(255,205,0,0.3)]">
+                    <path d="M100 300 L600 300 L650 150 L500 120 L400 50 L150 50 Z" fill="none" stroke="#555" stroke-width="2"/>
+                    <circle cx="200" cy="300" r="50" fill="none" stroke="#FFCD00" stroke-width="4"/>
+                    <circle cx="500" cy="300" r="50" fill="none" stroke="#FFCD00" stroke-width="4"/>
+                    <!-- Hotspots corregidos -->
+                    <circle cx="250" cy="150" r="15" class="hotspot-pulse cursor-pointer" onclick="filterVisual('Motor')" />
+                    <circle cx="400" cy="200" r="15" class="hotspot-pulse cursor-pointer" onclick="filterVisual('Transmisión')" />
+                    <circle cx="550" cy="180" r="15" class="hotspot-pulse cursor-pointer" onclick="filterVisual('Hidráulico')" />
+                    <circle cx="200" cy="300" r="15" class="hotspot-pulse cursor-pointer" onclick="filterVisual('Ejes')" />
+                </svg>
             </div>
-            <div id="quick-panel" class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 italic text-gray-400">Selecciona un sistema en el diagrama para ver repuestos críticos.</div>
+            <div id="visual-details" class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 italic text-gray-400 flex items-center justify-center text-center">
+                Toca los puntos amarillos para filtrar repuestos por sistema.
+            </div>
         </div>
     `;
 }
 
-function quickLook(sys) {
-    const filtered = appState.parts.filter(p => p.Sistema.includes(sys)).slice(0,6);
-    let html = `<h4 class="font-black text-2xl text-black mb-6 border-b-4 border-yellow-500 pb-2 inline-block">${sys.toUpperCase()}</h4><div class="space-y-3">`;
-    filtered.forEach(p => html += `<div class="p-3 bg-gray-50 rounded-xl text-xs border border-gray-100 shadow-sm"><b class="text-blue-600">${p['Número de Parte']}</b><br>${p['Nombre de la Pieza']}</div>`);
-    document.getElementById('quick-panel').innerHTML = html + `</div>`;
+function filterVisual(sys) {
+    const parts = appState.parts.filter(p => p.Sistema.includes(sys)).slice(0,5);
+    let html = `<div class="w-full"><h3 class="font-black text-xl mb-4 border-b-4 border-yellow-500 pb-2">${sys.toUpperCase()}</h3>`;
+    parts.forEach(p => {
+        html += `<div class="p-3 mb-2 bg-gray-50 rounded-xl text-xs flex justify-between">
+            <b>${p['Número de Parte']}</b>
+            <span class="${p.Cantidad <= 1 ? 'text-red-500' : 'text-green-600'} font-bold">Stk: ${p.Cantidad}</span>
+        </div>`;
+    });
+    document.getElementById('visual-details').innerHTML = html + `</div>`;
 }
 
-// --- VISTA: GENERADOR QR ---
-function renderQRGenerator() {
+// --- BITACORA Y HOJA DE VIDA ---
+function renderBitacora() {
     document.getElementById('app-content').innerHTML = `
-        <div class="bg-white p-10 rounded-3xl max-w-md mx-auto shadow-2xl text-center border border-gray-100">
-            <h3 class="font-black text-xl mb-6">ETIQUETADO QR</h3>
-            <select id="qrSelect" class="w-full p-4 rounded-xl border-none ring-1 ring-gray-200 mb-6 outline-none">
-                ${appState.parts.map(p => `<option value="${p['SKU/QR']}">${p['Número de Parte']} - ${p.Nombre_Pieza || p['Nombre de la Pieza']}</option>`).join('')}
-            </select>
-            <div id="qrcode-canvas" class="flex justify-center p-6 bg-white border-2 border-dashed border-gray-200 rounded-2xl mb-6 min-h-[240px] items-center"></div>
-            <button onclick="makeQR()" class="w-full bg-yellow-500 text-black py-4 rounded-xl font-black hover:bg-black hover:text-white transition shadow-lg">GENERAR ETIQUETA</button>
-        </div>
-    `;
-}
-
-function makeQR() {
-    const val = document.getElementById('qrSelect').value;
-    const canvas = document.getElementById('qrcode-canvas');
-    canvas.innerHTML = '';
-    new QRCode(canvas, { text: val, width: 200, height: 200, colorDark : "#000000", colorLight : "#ffffff" });
-}
-
-function generateSingleQR(sku) {
-    router('qr-generator');
-    setTimeout(() => { document.getElementById('qrSelect').value = sku; makeQR(); }, 300);
-}
-
-// --- VISTA: HOJA DE VIDA ---
-function renderHojaVida() {
-    document.getElementById('app-content').innerHTML = `
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-                <h4 class="font-black text-lg mb-6 border-b pb-2">REGISTRO TÉCNICO</h4>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate__animated animate__fadeIn">
+            <div class="bg-white p-8 rounded-3xl shadow-xl">
+                <h4 class="font-black mb-6">REGISTRAR INTERVENCIÓN</h4>
                 <div class="space-y-4">
-                    <input type="date" id="h-fecha" class="w-full p-3 bg-gray-50 border-none ring-1 ring-gray-200 rounded-xl">
-                    <input type="number" id="h-hora" placeholder="Horómetro actual" class="w-full p-3 bg-gray-50 border-none ring-1 ring-gray-200 rounded-xl">
-                    <select id="h-tipo" class="w-full p-3 bg-gray-50 border-none ring-1 ring-gray-200 rounded-xl">
-                        <option>PM 250</option><option>PM 500</option><option>PM 1000</option><option>PM 2000</option><option>REPARACIÓN</option>
+                    <input type="date" id="log-date" class="w-full p-4 bg-gray-50 rounded-xl border-none ring-1 ring-gray-100">
+                    <input type="number" id="log-hour" placeholder="Horas" class="w-full p-4 bg-gray-50 rounded-xl border-none ring-1 ring-gray-100">
+                    <select id="log-type" class="w-full p-4 bg-gray-50 rounded-xl border-none ring-1 ring-gray-100">
+                        <option>PM 250</option><option>PM 500</option><option>PM 1000</option><option>OVERHAUL</option>
                     </select>
-                    <textarea id="h-nota" placeholder="Detalles de la intervención..." class="w-full p-4 bg-gray-50 border-none ring-1 ring-gray-200 rounded-xl h-32"></textarea>
-                    <button onclick="saveMaint()" class="w-full bg-black text-white py-4 rounded-xl font-black hover:bg-yellow-500 hover:text-black transition shadow-lg">GUARDAR EN BITÁCORA</button>
+                    <textarea id="log-desc" placeholder="Descripción técnica..." class="w-full p-4 bg-gray-50 rounded-xl border-none ring-1 ring-gray-100 h-32"></textarea>
+                    <button onclick="saveLog()" class="w-full bg-black text-white py-4 rounded-xl font-black">GUARDAR EN HOJA DE VIDA</button>
                 </div>
             </div>
-            <div class="lg:col-span-2 bg-white rounded-3xl shadow-xl p-8 overflow-y-auto max-h-[600px] border border-gray-100">
-                <h4 class="font-black text-lg mb-6">HISTORIAL DE LA MÁQUINA</h4>
+            <div class="lg:col-span-2 bg-white rounded-3xl shadow-xl p-8 overflow-y-auto max-h-[600px]">
+                <h4 class="font-black mb-6 uppercase tracking-widest">Cronología de Mantenimiento</h4>
                 <div class="space-y-4">
                     ${appState.history.slice().reverse().map(h => `
-                        <div class="p-6 border border-gray-100 rounded-2xl flex justify-between items-center hover:bg-gray-50 transition">
-                            <div><span class="text-[10px] font-black bg-yellow-400 px-2 py-1 rounded uppercase">${h.tipo}</span><p class="mt-2 text-sm text-gray-700 font-medium">${h.nota}</p></div>
-                            <div class="text-right"><div class="text-xl font-black text-black">${h.horometro}h</div><div class="text-[10px] text-gray-400 font-bold">${h.fecha}</div></div>
+                        <div class="flex items-center p-5 border border-gray-100 rounded-2xl">
+                            <div class="mr-6 text-center">
+                                <span class="block text-2xl font-black">${h.horometro}h</span>
+                                <span class="text-[8px] text-gray-400 font-bold uppercase">${h.fecha}</span>
+                            </div>
+                            <div class="flex-1">
+                                <span class="bg-yellow-400 text-[10px] font-black px-2 py-1 rounded-full uppercase">${h.tipo}</span>
+                                <p class="text-sm text-gray-600 mt-2 font-medium">${h.nota}</p>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
@@ -206,38 +249,15 @@ function renderHojaVida() {
     `;
 }
 
-function saveMaint() {
-    const h = { fecha: document.getElementById('h-fecha').value, horometro: parseInt(document.getElementById('h-hora').value), tipo: document.getElementById('h-tipo').value, nota: document.getElementById('h-nota').value };
-    if(!h.fecha || !h.horometro) return alert("Error: Fecha y Horómetro son obligatorios.");
-    appState.history.push(h);
+function saveLog() {
+    const entry = {
+        fecha: document.getElementById('log-date').value,
+        horometro: parseInt(document.getElementById('log-hour').value),
+        tipo: document.getElementById('log-type').value,
+        nota: document.getElementById('log-desc').value
+    };
+    if(!entry.fecha || !entry.horometro) return alert("Faltan datos");
+    appState.history.push(entry);
     localStorage.setItem('cat930_history', JSON.stringify(appState.history));
-    router('hoja-vida');
-}
-
-// --- VISTA: LUBRICACION ---
-function renderLubricacion() {
-    document.getElementById('app-content').innerHTML = `
-        <div class="bg-white p-10 rounded-3xl shadow-xl border border-gray-100">
-            <h3 class="font-black text-2xl mb-6">PLAN DE LUBRICACIÓN DIARIO (10H)</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="p-6 bg-yellow-50 rounded-2xl border border-yellow-100">
-                    <h4 class="font-bold text-yellow-800">Puntos de Engrase (Grasa EP2)</h4>
-                    <ul class="mt-4 space-y-2 text-sm text-yellow-900">
-                        <li>• Articulación Central (Superior e Inferior)</li>
-                        <li>• Cilindros de Dirección (4 puntos)</li>
-                        <li>• Pasadores del Cucharón y Varillaje</li>
-                        <li>• Cilindros de Levante (Boom)</li>
-                    </ul>
-                </div>
-                <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
-                    <h4 class="font-bold text-blue-800">Niveles de Aceite</h4>
-                    <ul class="mt-4 space-y-2 text-sm text-blue-900">
-                        <li>• Motor (Varilla lado derecho) - 15W40</li>
-                        <li>• Transmisión (Mirilla motor encendido) - SAE 30</li>
-                        <li>• Tanque Hidráulico (Mirilla lado derecho) - SAE 10W</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    `;
+    router('bitacora');
 }
