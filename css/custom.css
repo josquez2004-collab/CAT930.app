@@ -28,7 +28,7 @@
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 }
 
-/* Animaciones de Hover para botones de navegación */
+/* Animaciones de Hover para botones de navegaciÃ³n */
 .sidebar-link {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -123,7 +123,7 @@ table thead {
     box-shadow: 0 0 20px #FFCD00;
 }
 
-/* Animaci�n de pulso */
+/* Animación de pulso */
 .hotspot::before {
     content: '';
     position: absolute;
@@ -149,4 +149,20 @@ table thead {
     pointer-events: none;
     display: none;
     z-index: 100;
+}
+.hotspot-pulse {
+    fill: #FFCD00;
+    fill-opacity: 0.6;
+    animation: h-pulse 2s infinite;
+}
+
+.hotspot-pulse:hover {
+    fill-opacity: 1;
+    r: 20;
+}
+
+@keyframes h-pulse {
+    0% { r: 10; opacity: 0.8; }
+    50% { r: 18; opacity: 0.4; }
+    100% { r: 10; opacity: 0.8; }
 }
