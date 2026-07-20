@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAT 930 Manager | Industria 4.0</title>
+    
+    <!-- CDNs -->
+	<script src="data/database.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <!-- PapaParse para leer CSV localmente -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .cat-yellow { background-color: #FFCD00; }
+        .cat-black { background-color: #101010; }
+        .sidebar-link:hover { background-color: #2d2d2d; border-left: 4px solid #FFCD00; }
+        .sidebar-link.active { background-color: #2d2d2d; border-left: 4px solid #FFCD00; color: #FFCD00; }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR (Navegación estilo React) -->
+        <aside class="w-64 cat-black text-white flex-shrink-0 hidden md:flex flex-col">
+            <div class="p-6 text-center border-b border-gray-800">
+                <h1 class="text-2xl font-bold text-yellow-500">CAT 930</h1>
+                <p class="text-xs text-gray-400">Serial: 41K9061</p>
+            </div>
+            
+            <nav class="flex-1 mt-6 px-2 space-y-2">
+                <button onclick="router('dashboard')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+                    <i class="fa-solid fa-chart-line w-6 text-gray-400 group-hover:text-yellow-500"></i>
+                    <span class="ml-3">Dashboard</span>
+                </button>
+                <button onclick="router('catalogo')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+                    <i class="fa-solid fa-gears w-6 text-gray-400 group-hover:text-yellow-500"></i>
+                    <span class="ml-3">Catálogo de Partes</span>
+                </button>
+                <button onclick="router('mantenimiento')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+                    <i class="fa-solid fa-calendar-check w-6 text-gray-400 group-hover:text-yellow-500"></i>
+                    <span class="ml-3">Mantenimiento PM</span>
+                </button>
+                <button onclick="router('inventario')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+                    <i class="fa-solid fa-warehouse w-6 text-gray-400 group-hover:text-yellow-500"></i>
+                    <span class="ml-3">Stock / QR</span>
+                </button>
+                <button onclick="router('lubricacion')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+                    <i class="fa-solid fa-droplet w-6 text-gray-400 group-hover:text-yellow-500"></i>
+                    <span class="ml-3">Lubricación</span>
+                </button>
+				<button onclick="router('visual')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+					<i class="fa-solid fa-eye w-6 text-gray-400 group-hover:text-yellow-500"></i>
+					<span class="ml-3">Explorador Visual</span>
+				</button>
+				<button onclick="router('qr-generator')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+					<i class="fa-solid fa-qrcode w-6 text-gray-400 group-hover:text-yellow-500"></i>
+					<span class="ml-3">Generador de QR</span>
+				</button>
+				<button onclick="router('hoja-vida')" class="sidebar-link w-full flex items-center p-3 transition-all duration-200 rounded-lg group">
+					<i class="fa-solid fa-file-medical w-6 text-gray-400 group-hover:text-yellow-500"></i>
+					<span class="ml-3">Hoja de Vida</span>
+				</button>
+            </nav>
+            
+            <div class="p-4 border-t border-gray-800 text-center">
+                <span class="text-[10px] text-gray-500 uppercase tracking-widest text-center">Industria 4.0 Pro</span>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            
+            <!-- Topbar -->
+            <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8">
+                <div class="flex items-center space-x-4">
+                    <h2 id="page-title" class="text-xl font-semibold text-gray-800 uppercase">Dashboard</h2>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="flex flex-col text-right">
+                        <span class="text-sm font-bold" id="horometro-display">8,450h</span>
+                        <span class="text-[10px] text-green-500 font-bold uppercase">Estado: Operativo</span>
+                    </div>
+                    <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center border-2 border-yellow-500">
+                        <i class="fa-solid fa-user text-gray-600"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTENEDOR DINÁMICO (Aquí cambia el contenido según la navegación) -->
+            <div id="app-content" class="p-8 animate__animated animate__fadeIn">
+                <!-- El JS inyectará el contenido aquí -->
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Script de Inicio -->
+    <script src="js/app.js"></script>
+	<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js');
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "CAT 930 Manager Pro",
+  "short_name": "CAT930",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#101010",
+  "theme_color": "#FFCD00",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2554/2554978.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

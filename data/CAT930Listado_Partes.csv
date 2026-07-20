@@ -1,0 +1,113 @@
+﻿SKU/QR,Sistema,Nombre de la Pieza,Número de Parte,Cantidad,Frecuencia de Cambio,Datos Adicionales
+CAT930-ENG-001,Motor 3304,Filtro de Aceite de Motor,1R-0716,1,Cada 250 horas,Filtro de rosca estándar
+CAT930-ENG-002,Motor 3304,Filtro de Combustible,1R-0750,1,Cada 250 - 500 horas,Filtro secundario
+CAT930-ENG-003,Motor 3304,Filtro de Aire Primario,6L-4714,1,Cada 500 horas / Indicador,Elemento principal
+CAT930-ENG-004,Motor 3304,Pistón de Motor,8N-3102,4,Overhaul,Revisar arreglo de cámara de pre-combustión
+CAT930-ENG-005,Motor 3304,Juego de Anillos de Pistón,2W-1709,4,Overhaul,Un juego por pistón
+CAT930-ENG-006,Motor 3304,Camisa de Cilindro,110-6991,4,Overhaul,Incluye O-rings (sellos de camisa)
+CAT930-ENG-007,Motor 3304,Biela de Motor,8N-1721,4,Al sufrir daño / Overhaul,Inspeccionar desgaste en pie/cabeza
+CAT930-ENG-008,Motor 3304,Concha de Biela (Estándar),4W-5739,4,Overhaul,Cigüeñal STD
+CAT930-ENG-009,Motor 3304,Concha de Biela (0.10 / 0.25mm),4W-5740,4,Overhaul,"Cigüeñal rectificado a 0.10"""
+CAT930-ENG-010,Motor 3304,Concha de Biela (0.20 / 0.50mm),4W-5741,4,Overhaul,"Cigüeñal rectificado a 0.20"""
+CAT930-ENG-011,Motor 3304,Concha de Biela (0.30 / 0.76mm),4W-5742,4,Overhaul,"Cigüeñal rectificado a 0.30"""
+CAT930-ENG-012,Motor 3304,Concha de Bancada (Estándar),4W-5492,5,Overhaul,Cigüeñal STD
+CAT930-ENG-013,Motor 3304,Concha de Bancada (0.10 / 0.25mm),4W-5493,5,Overhaul,"Cigüeñal rectificado a 0.10"""
+CAT930-ENG-014,Motor 3304,Concha de Bancada (0.20 / 0.50mm),4W-5494,5,Overhaul,"Cigüeñal rectificado a 0.20"""
+CAT930-ENG-015,Motor 3304,Concha de Bancada (0.30 / 0.76mm),4W-5495,5,Overhaul,"Cigüeñal rectificado a 0.30"""
+CAT930-ENG-016,Motor 3304,Medialuna / Arandela de Empuje,7N-9343,2,Overhaul,Controla juego axial del cigüeñal
+CAT930-ENG-017,Motor 3304,Juego de Empacaduras Superior,6V-8043,1,Overhaul / Falla,"Incluye cámara, múltiple escape/admisión"
+CAT930-ENG-018,Motor 3304,Juego de Empacaduras Inferior,6V-8044,1,Overhaul / Fuga de aceite,"Incluye cárter, tapas frontales"
+CAT930-ENG-019,Motor 3304,Empacadura de Cámara (Culata),7E-6167,1,Al desmontar cámara,Viene en el juego superior pero se vende sola
+CAT930-ENG-020,Motor 3304,Empacadura de Cárter,4N-1151,1,Fuga / Overhaul,Suele venderse en el juego inferior
+CAT930-ENG-021,Motor 3304,Empacadura Tapa Válvula,8F-6711,1,Ajuste válvulas / Fuga,Debe inspeccionarse al calibrar válvulas
+CAT930-ENG-022,Motor 3304,Sello Delantero de Cigüeñal,142-5867,1,Fuga / Overhaul,Reemplazo requiere herramienta especial
+CAT930-ENG-023,Motor 3304,Sello Trasero de Cigüeñal,142-5868,1,Fuga / Overhaul,Ubicado detrás del volante de inercia
+CAT930-ENG-024,Motor 3304,Inyector de Combustible,8N-7005,4,2000h o falla,Tipo cápsula (Pencil nozzle / Capsule)
+CAT930-ENG-025,Motor 3304,Bomba de Agua,172-7776,1,Fuga / Overhaul,Viene con polea
+CAT930-ENG-026,Motor 3304,Bomba de Aceite de Motor,4N-8734,1,Baja presión / Overhaul,Va montada internamente en el cárter
+CAT930-TRANS-001,Transmisión,Filtro de Transmisión,1R-0719,1,Cada 500 horas,Elemento de cartucho/magnético
+CAT930-COOL-001,Enfriamiento,Termostato (82°C),7N-5456,1,Cada 2000 horas,Regula la temperatura del motor
+CAT930-COOL-002,Enfriamiento,Manguera Superior Radiador,5S-6296,1,Inspección / 1000h,Revisar grietas o endurecimiento
+CAT930-COOL-003,Enfriamiento,Manguera Inferior Radiador,5S-6295,1,Inspección / 1000h,Manguera de succión de bomba
+CAT930-COOL-004,Enfriamiento,Tapa de Radiador (7 PSI), 4N-0004,1,Anual,Mantiene la presión del sistema
+CAT930-TRANS-002,Transmisión,Kit de Sellos (Overhaul),5P-8768,1,Overhaul / Reparación mayor,Incluye O-rings y sellos internos
+CAT930-TRANS-003,Transmisión,Disco de Fricción (Bronce/Sintético),9P-7390,14,Overhaul / Deslizamiento,Cantidad total varía según los paquetes de embrague (1 a 4)
+CAT930-TRANS-004,Transmisión,Plato Separador (Acero),6Y-7951,14,Overhaul / Pandeo,Se debe revisar alabeo al cambiar discos de fricción
+CAT930-TRANS-005,Transmisión,Bomba de Carga de Transmisión,3P-6816,1,Baja presión en mandos / Overhaul,Suministra presión a la válvula de control
+CAT930-TRANS-006,Transmisión,Válvula de Control (Cuerpo),9P-7758,1,Falla severa de cambios,Requiere calibración de presiones al instalar
+CAT930-TRANS-007,Transmisión,Sello del Eje de Salida,5K-5288,2,Fuga visible,Delantero y trasero (hacia los cardanes)
+CAT930-TRANS-008,Transmisión,Rodamiento de Rodillos Cónicos,1B-3904,4,Overhaul / Zumbido,Soporte principal de los ejes internos
+CAT930-TRANS-009,Transmisión,Convertidor de Par (Torque),9P-8517,1,Pérdida de fuerza de empuje,Generalmente se reconstruye cambiando turbina/estator
+CAT930-TRANS-010,Transmisión,Empacadura de Carcasa,8P-4074,1,Al desarmar carcasa,Sella los cuerpos principales de la caja
+CAT930-TRANS-011,Transmisión,Cruceta de Cardán (Eje de mando),5V-7369,2,Juego excesivo o vibración,Conecta la salida de transmisión con los diferenciales
+CAT930-HYD-001,Hidráulico,Filtro de Aceite Hidráulico,4T-3131,1,Cada 500 horas,Filtro principal de retorno
+CAT930-HYD-002,Hidráulico,Respiradero del Tanque Hidráulico,9G-5127,1,Cada 1000 horas / Entorno polvoriento,Evita la contaminación del aceite del tanque
+CAT930-HYD-003,Hidráulico,Bomba Hidráulica de Implementos,3G-1268,1,Pérdida de presión o lentitud,Bomba de engranajes principal (levante y volteo)
+CAT930-HYD-004,Hidráulico,Kit de Sellos - Cilindro de Levante,5P-8069,2,Fuga de aceite exterior o pérdida de fuerza,Un kit por cada cilindro (Boom/Lift)
+CAT930-HYD-005,Hidráulico,Kit de Sellos - Cilindro de Volteo,5P-8068,2,Fuga de aceite exterior o el cucharón se cae,Un kit por cada cilindro de inclinación (Tilt)
+CAT930-HYD-006,Hidráulico,Kit de Sellos - Cilindros de Dirección,7X-2804,2,Dirección dura o fugas,Articulación central de la máquina
+CAT930-HYD-007,Hidráulico,Válvula de Control Principal (Banco),9V-7360,1,Atascamiento de mandos / Fallas internas,Distribuye el fluido a los cilindros
+CAT930-HYD-008,Hidráulico,Válvula de Alivio Principal,2M-8495,1,Sobrepresión o pérdida de fuerza general,Regula la presión máxima del sistema (aprox 2500 PSI)
+CAT930-HYD-009,Hidráulico,Bomba Hidráulica de Dirección,3G-2834,1,Endurecimiento del volante,Sistema dedicado a la articulación
+CAT930-HYD-010,Hidráulico,Enfriador de Aceite Hidráulico,7N-0128,1,Recalentamiento del aceite o rotura,Ubicado generalmente frente o detrás del radiador de agua
+CAT930-BRK-001,Frenos,Compresor de Aire,2P-6990,1,Baja presión / Fuga de aceite,Impulsado por el motor (engranajes)
+CAT930-BRK-002,Frenos,Gobernador de Presión de Aire,2P-7306,1,Falla en corte de presión,Regula la presión del compresor
+CAT930-BRK-003,Frenos,Zapata / Banda de Freno,5V-4161,4,Desgaste al límite,Dos juegos por eje (delantero/trasero)
+CAT930-BRK-004,Frenos,Tambor de Freno,8K-0013,4,Desgaste excesivo / Grietas,Inspeccionar al cambiar zapatas
+CAT930-BRK-005,Frenos,Cámara de Freno (Rotochamber),9D-6140,4,Fuga de aire / Ruptura de diafragma,Una por cada conjunto de freno
+CAT930-BRK-006,Frenos,Diafragma de Cámara de Freno,2D-8610,4,Fuga de aire,Reemplazo interno de la cámara
+CAT930-BRK-007,Frenos,Válvula de Pedal de Freno,3V-5496,1,Fuga en cabina / Falla de respuesta,Válvula de control principal (Treadle Valve)
+CAT930-BRK-008,Frenos,Válvula de Relevo (Relay),9D-4654,1,Frenos se quedan pegados o lentos,Acelera la aplicación y liberación del aire
+CAT930-AXL-001,Ejes y Diferenciales,Sello Duo-Cone (Sello de Espejo),9W-6647,4,Fuga de aceite en la rueda / Overhaul de mando,Sello metálico de precisión, requiere cuidado al instalar
+CAT930-AXL-002,Ejes y Diferenciales,Juego de Corona y Piñón,8V-0125,2,Desgaste de dientes / Ruido excesivo,Uno para el eje delantero y otro para el trasero
+CAT930-AXL-003,Ejes y Diferenciales,Semieje (Eje Palier),5V-6228,4,Fractura por fatiga o sobrecarga,Transmite la fuerza del diferencial a las ruedas
+CAT930-AXL-004,Ejes y Diferenciales,Rodamiento de Rueda (Cono),2J-3507,8,Juego en la rueda / Desgaste,Lleva dos por cada maza de rueda (interior y exterior)
+CAT930-AXL-005,Ejes y Diferenciales,Rodamiento de Rueda (Copa),2J-3506,8,Juego en la rueda / Desgaste,Pista exterior del rodamiento cónico
+CAT930-AXL-006,Ejes y Diferenciales,Engranaje Planetario,3V-5126,12,Ruido en mando final / Partícula en aceite,Van 3 por cada rueda en el cubo reductor
+CAT930-AXL-007,Ejes y Diferenciales,Cruceta de Diferencial,4V-6323,2,Desgaste en los pines / Golpeteo,Soporta los satélites dentro de la caja del diferencial
+CAT930-AXL-008,Ejes y Diferenciales,Sello del Piñón de Ataque,6V-3250,2,Fuga de aceite hacia el cardán,Retén de aceite en la entrada del diferencial
+CAT930-AXL-009,Ejes y Diferenciales,Arandela de Empuje (Satélites),2K-5069,8,Overhaul del diferencial,Controla el juego y fricción de los engranajes internos
+CAT930-CHA-001,Articulación y Chasís,Pin de Articulación Superior,2K-4821,1,Juego excesivo en la unión central,Punto pivotante superior que une los dos semi-chasís
+CAT930-CHA-002,Articulación y Chasís,Buje de Articulación Superior,2K-4822,2,Juego excesivo en la unión central,"Van clavados en el chasís, requieren prensa o nitrógeno para instalación"
+CAT930-CHA-003,Articulación y Chasís,Pin de Articulación Inferior,2K-4823,1,Juego excesivo o fractura,Soporta gran parte del peso y torsión de la máquina
+CAT930-CHA-004,Articulación y Chasís,Buje de Articulación Inferior,2K-4824,2,Juego excesivo / Desgaste asimétrico,Revisar alineación de los alojamientos al cambiar
+CAT930-CHA-005,Articulación y Chasís,Sello de Labio (Articulación),5K-1078,4,Al cambiar pines y bujes,Retiene la grasa y evita entrada de tierra a los bujes centrales
+CAT930-CHA-006,Articulación y Chasís,Pin Anclaje Cilindro de Dirección,4V-3367,4,Golpeteo al mover el volante,Conecta los cilindros de dirección al chasís delantero y trasero
+CAT930-CHA-007,Articulación y Chasís,Buje Anclaje Cilindro de Dirección,4V-3368,4,Golpeteo al mover el volante,Alojamientos en los extremos de los cilindros y el chasís
+CAT930-CHA-008,Articulación y Chasís,Pin Principal de Brazo de Levante,5V-1022,2,Juego al levantar la carga,Une el boom (brazos) con el chasís delantero (Torre)
+CAT930-CHA-009,Articulación y Chasís,Buje Principal de Brazo de Levante,5V-1023,4,Juego al levantar la carga,Inspeccionar las cuñas o tornillos de fijación del pin
+CAT930-CHA-010,Articulación y Chasís,Grasera (Alemite) Recta/Curva 1/8,3B-8489,12,Obstrucción o ruptura,Vitales para la lubricación diaria de todos los pines
+CAT930-CHA-001,Articulación y Chasís,Pin de Articulación Superior,2K-4821,1,Juego excesivo en la unión central,Punto pivotante superior que une los dos semi-chasís
+CAT930-CHA-002,Articulación y Chasís,Buje de Articulación Superior,2K-4822,2,Juego excesivo en la unión central,"Van clavados en el chasís, requieren prensa o nitrógeno para instalación"
+CAT930-CHA-003,Articulación y Chasís,Pin de Articulación Inferior,2K-4823,1,Juego excesivo o fractura,Soporta gran parte del peso y torsión de la máquina
+CAT930-CHA-004,Articulación y Chasís,Buje de Articulación Inferior,2K-4824,2,Juego excesivo / Desgaste asimétrico,Revisar alineación de los alojamientos al cambiar
+CAT930-CHA-005,Articulación y Chasís,Sello de Labio (Articulación),5K-1078,4,Al cambiar pines y bujes,Retiene la grasa y evita entrada de tierra a los bujes centrales
+CAT930-CHA-006,Articulación y Chasís,Pin Anclaje Cilindro de Dirección,4V-3367,4,Golpeteo al mover el volante,Conecta los cilindros de dirección al chasís delantero y trasero
+CAT930-CHA-007,Articulación y Chasís,Buje Anclaje Cilindro de Dirección,4V-3368,4,Golpeteo al mover el volante,Alojamientos en los extremos de los cilindros y el chasís
+CAT930-CHA-008,Articulación y Chasís,Pin Principal de Brazo de Levante,5V-1022,2,Juego al levantar la carga,Une el boom (brazos) con el chasís delantero (Torre)
+CAT930-CHA-009,Articulación y Chasís,Buje Principal de Brazo de Levante,5V-1023,4,Juego al levantar la carga,Inspeccionar las cuñas o tornillos de fijación del pin
+CAT930-CHA-010,Articulación y Chasís,Grasera (Alemite) Recta/Curva 1/8,3B-8489,12,Obstrucción o ruptura,Vitales para la lubricación diaria de todos los pines
+CAT930-CHA-001,Articulación y Chasís,Pin de Articulación Superior,2K-4821,1,Juego excesivo en la unión central,Punto pivotante superior que une los dos semi-chasís
+CAT930-CHA-002,Articulación y Chasís,Buje de Articulación Superior,2K-4822,2,Juego excesivo en la unión central,"Van clavados en el chasís, requieren prensa o nitrógeno para instalación"
+CAT930-CHA-003,Articulación y Chasís,Pin de Articulación Inferior,2K-4823,1,Juego excesivo o fractura,Soporta gran parte del peso y torsión de la máquina
+CAT930-CHA-004,Articulación y Chasís,Buje de Articulación Inferior,2K-4824,2,Juego excesivo / Desgaste asimétrico,Revisar alineación de los alojamientos al cambiar
+CAT930-CHA-005,Articulación y Chasís,Sello de Labio (Articulación),5K-1078,4,Al cambiar pines y bujes,Retiene la grasa y evita entrada de tierra a los bujes centrales
+CAT930-CHA-006,Articulación y Chasís,Pin Anclaje Cilindro de Dirección,4V-3367,4,Golpeteo al mover el volante,Conecta los cilindros de dirección al chasís delantero y trasero
+CAT930-CHA-007,Articulación y Chasís,Buje Anclaje Cilindro de Dirección,4V-3368,4,Golpeteo al mover el volante,Alojamientos en los extremos de los cilindros y el chasís
+CAT930-CHA-008,Articulación y Chasís,Pin Principal de Brazo de Levante,5V-1022,2,Juego al levantar la carga,Une el boom (brazos) con el chasís delantero (Torre)
+CAT930-CHA-009,Articulación y Chasís,Buje Principal de Brazo de Levante,5V-1023,4,Juego al levantar la carga,Inspeccionar las cuñas o tornillos de fijación del pin
+CAT930-CHA-010,Articulación y Chasís,Grasera (Alemite) Recta/Curva 1/8,3B-8489,12,Obstrucción o ruptura,Vitales para la lubricación diaria de todos los pines
+CAT930-CHA-001,Articulación y Chasís,Pin de Articulación Superior,2K-4821,1,Juego excesivo en la unión central,Punto pivotante superior que une los dos semi-chasís
+CAT930-CHA-002,Articulación y Chasís,Buje de Articulación Superior,2K-4822,2,Juego excesivo en la unión central,"Van clavados en el chasís, requieren prensa o nitrógeno para instalación"
+CAT930-CHA-003,Articulación y Chasís,Pin de Articulación Inferior,2K-4823,1,Juego excesivo o fractura,Soporta gran parte del peso y torsión de la máquina
+CAT930-CHA-004,Articulación y Chasís,Buje de Articulación Inferior,2K-4824,2,Juego excesivo / Desgaste asimétrico,Revisar alineación de los alojamientos al cambiar
+CAT930-CHA-005,Articulación y Chasís,Sello de Labio (Articulación),5K-1078,4,Al cambiar pines y bujes,Retiene la grasa y evita entrada de tierra a los bujes centrales
+CAT930-CHA-006,Articulación y Chasís,Pin Anclaje Cilindro de Dirección,4V-3367,4,Golpeteo al mover el volante,Conecta los cilindros de dirección al chasís delantero y trasero
+CAT930-CHA-007,Articulación y Chasís,Buje Anclaje Cilindro de Dirección,4V-3368,4,Golpeteo al mover el volante,Alojamientos en los extremos de los cilindros y el chasís
+CAT930-CHA-008,Articulación y Chasís,Pin Principal de Brazo de Levante,5V-1022,2,Juego al levantar la carga,Une el boom (brazos) con el chasís delantero (Torre)
+CAT930-CHA-009,Articulación y Chasís,Buje Principal de Brazo de Levante,5V-1023,4,Juego al levantar la carga,Inspeccionar las cuñas o tornillos de fijación del pin
+CAT930-CHA-010,Articulación y Chasís,Grasera (Alemite) Recta/Curva 1/8,3B-8489,12,Obstrucción o ruptura,Vitales para la lubricación diaria de todos los pines
+CAT930-ELE-001,Eléctrico,Motor de Arranque (24V),3T-7073,1,Falla / Overhaul,Motor de arranque pesado para Motor 3304
+CAT930-ELE-002,Eléctrico,Alternador (24V - 50A),6N-9294,1,Falla / Overhaul,Sistema de carga de batería
+CAT930-ELE-003,Eléctrico,Batería 12V (Serie),4D-0118,2,Cada 2 años,Requiere dos unidades para sistema de 24V
+CAT930-ELE-004,Eléctrico,Solenoide de Parada,6N-3914,1,Falla,Corte de combustible eléctrico
